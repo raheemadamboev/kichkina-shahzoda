@@ -2,6 +2,12 @@ package xyz.teamgravity.kichkinashahzoda.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
+val Black = Color(0xFF000000)
+val White = Color(0xFFFFFFFF)
+val White700 = Color(0xFFBBBBBB)
+val DarkGray = Color(0xFF121212)
+val DarkGray200 = Color(0xFF1A1A1A)
+
 val Pink10 = Color(0xFF330000)
 val Pink20 = Color(0xFF660000)
 val Pink30 = Color(0xFF990000)
