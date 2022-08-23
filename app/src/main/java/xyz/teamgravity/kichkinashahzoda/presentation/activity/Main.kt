@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda
+package xyz.teamgravity.kichkinashahzoda.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import xyz.teamgravity.kichkinashahzoda.ui.theme.KichkinaShahzodaTheme
 
-class MainActivity : ComponentActivity() {
+class Main : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
