@@ -8,24 +8,13 @@ plugins {
     id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
 }
 
-kotlin {
-    sourceSets {
-        debug {
-            kotlin.srcDir("build/generated/ksp/debug/kotlin")
-        }
-        release {
-            kotlin.srcDir("build/generated/ksp/release/kotlin")
-        }
-    }
-}
-
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "xyz.teamgravity.kichkinashahzoda"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 2
         versionName "1.1.0"
 
@@ -68,6 +57,14 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -92,6 +89,12 @@ dependencies {
 
     // compose material3
     implementation 'androidx.compose.material3:material3:1.0.0-alpha16'
+
+    // compose constraint layout
+    implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
+
+    // compose icons
+    implementation "androidx.compose.material:material-icons-extended:1.3.0-alpha03"
 
     // lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
