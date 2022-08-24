@@ -24,4 +24,7 @@
     <string name="cd_app_icon">Dastur belgisi</string>
     <string name="cd_company_logo">Kompaniya emblemasi</string>
     <string name="cd_more_vertical">Ko\'proq amallar</string>
+    <string name="cd_user_support">Foydalanuvchilarga yordam berish</string>
+    <string name="cd_via_telegram">Telegram orqali bog\'lanish</string>
+    <string name="cd_via_email">Email orqali bog\'lanish</string>
 </resources>
