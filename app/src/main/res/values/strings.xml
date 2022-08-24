@@ -10,6 +10,9 @@
     <string name="rate">Baho berish</string>
     <string name="source_code">Manba kodi</string>
     <string name="about_me">Dastur haqida</string>
+    <string name="first_part">Birinchi qism</string>
+    <string name="second_part">Ikkinchi qism</string>
+    <string name="third_part">Yakuniy qism</string>
 
     <!-- Support -->
     <string name="need_help">Yordam kerakmi?</string>
@@ -27,4 +30,5 @@
     <string name="cd_user_support">Foydalanuvchilarga yordam berish</string>
     <string name="cd_via_telegram">Telegram orqali bog\'lanish</string>
     <string name="cd_via_email">Email orqali bog\'lanish</string>
+    <string name="cd_album_cover">Album yuzi</string>
 </resources>
