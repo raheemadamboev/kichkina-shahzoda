@@ -10,9 +10,6 @@
     <string name="rate">Baho berish</string>
     <string name="source_code">Manba kodi</string>
     <string name="about_me">Dastur haqida</string>
-    <string name="first_part">Birinchi qism</string>
-    <string name="second_part">Ikkinchi qism</string>
-    <string name="third_part">Yakuniy qism</string>
 
     <!-- Support -->
     <string name="need_help">Yordam kerakmi?</string>
@@ -31,4 +28,11 @@
     <string name="cd_via_telegram">Telegram orqali bog\'lanish</string>
     <string name="cd_via_email">Email orqali bog\'lanish</string>
     <string name="cd_album_cover">Album yuzi</string>
+    <string name="cd_skip_previous">Ortga o\'tirish</string>
+    <string name="cd_play_pause">Boshlash yoki to\'xtatish</string>
+    <string name="cd_skip_next">Keyingiga o\'tirish</string>
+
+    <!-- Notification -->
+    <string name="notification_channel_player">Audio-player</string>
+    <string name="notification_channel_description_player">Bu kanal audioni kuylash uchun foydalaniladi</string>
 </resources>
