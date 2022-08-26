@@ -8,7 +8,7 @@ import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.rememberWind
 import xyz.teamgravity.kichkinashahzoda.presentation.navigation.MainNavGraph
 
 @MainNavGraph
-@Destination(navArgsDelegate = SongScreenNavArgs::class)
+@Destination
 @Composable
 fun SongScreen(
     navigator: DestinationsNavigator,
@@ -18,7 +18,3 @@ fun SongScreen(
         else -> SongLandscapeScreen(onBackButtonClick = navigator::popBackStack)
     }
 }
-
-data class SongScreenNavArgs(
-    val id: Int,
-)
