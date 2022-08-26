@@ -119,10 +119,15 @@ dependencies {
 
     // exoplayer
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.18.1'
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.18.1'
 
     // compose destinations
     implementation 'io.github.raamcosta.compose-destinations:core:1.7.16-beta'
     ksp 'io.github.raamcosta.compose-destinations:ksp:1.7.16-beta'
+
+    // timber
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 }
 
 allprojects {
