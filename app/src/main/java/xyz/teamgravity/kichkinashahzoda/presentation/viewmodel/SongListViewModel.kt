@@ -44,11 +44,11 @@ class SongListViewModel @Inject constructor(
         observe()
     }
 
-    fun onMenuExpanded() {
+    fun onMenuExpand() {
         menuExpanded = true
     }
 
-    fun onMenuCollapsed() {
+    fun onMenuCollapse() {
         menuExpanded = false
     }
 
