@@ -99,6 +99,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     private fun initializePlayer() {
         exoplayer.setMediaSource(repository.getMediaSources())
         exoplayer.addListener(this)
+        exoplayer.prepare()
     }
 
     private fun showNotification() {
@@ -151,11 +152,6 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
                 }
             }
         }
-    }
-
-    override fun onTaskRemoved(rootIntent: Intent?) {
-        super.onTaskRemoved(rootIntent)
-        exoplayer.stop()
     }
 
     override fun onDestroy() {
