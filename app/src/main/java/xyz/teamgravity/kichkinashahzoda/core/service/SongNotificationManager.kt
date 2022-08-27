@@ -3,6 +3,7 @@ package xyz.teamgravity.kichkinashahzoda.core.service
 import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import com.google.android.exoplayer2.Player
@@ -65,7 +66,7 @@ class SongNotificationManager(
         }
 
         override fun getCurrentLargeIcon(player: Player, callback: PlayerNotificationManager.BitmapCallback): Bitmap? {
-            return controller.metadata.description.iconBitmap
+            return BitmapFactory.decodeResource(context.resources, R.drawable.icon)
         }
     }
 }
