@@ -26,9 +26,6 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     companion object {
         private const val TAG = "SongService"
         const val ID = "xyz.teamgravity.kichkinashahzoda.ID"
-
-        var currentSongDuration = 0L
-            private set
     }
 
     @Inject
@@ -36,6 +33,9 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
 
     @Inject
     lateinit var repository: MainRepository
+
+    @Inject
+    lateinit var connection: SongServiceConnection
 
     private var session: MediaSessionCompat? = null
     private var notification: SongNotificationManager? = null
@@ -76,7 +76,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
             context = this,
             token = session!!.sessionToken,
             listener = this,
-            onSongChange = { currentSongDuration = if (exoplayer.duration == C.TIME_UNSET) 0L else exoplayer.duration }
+            onSongChange = { connection.setDuration(if (exoplayer.duration == C.TIME_UNSET) 0L else exoplayer.duration) }
         )
     }
 
