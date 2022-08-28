@@ -32,10 +32,6 @@ class SongNotificationManager(
         manager?.setPlayer(player)
     }
 
-    fun hide() {
-        manager?.setPlayer(null)
-    }
-
     private fun initializeManager() {
         manager = PlayerNotificationManager.Builder(context, NOTIFICATION_ID, CHANNEL_ID)
             .setChannelNameResourceId(R.string.notification_channel_player)
