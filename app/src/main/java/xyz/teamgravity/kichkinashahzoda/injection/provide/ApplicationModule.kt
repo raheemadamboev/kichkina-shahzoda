@@ -9,6 +9,8 @@ import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -31,4 +33,8 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideTimberDebugTree(): Timber.DebugTree = Timber.DebugTree()
+
+    @Provides
+    @Singleton
+    fun provideSimpleDateFormat(): SimpleDateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
 }
