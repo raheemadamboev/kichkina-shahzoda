@@ -23,6 +23,9 @@ class SongServiceConnection(
     private val _metadata = MutableStateFlow<MediaMetadataCompat?>(null)
     val metadata: StateFlow<MediaMetadataCompat?> = _metadata.asStateFlow()
 
+    private val _duration = MutableStateFlow(0L)
+    val duration: StateFlow<Long> = _duration.asStateFlow()
+
     private val mediaBrowserCallback = MediaBrowserCallback()
     private val mediaControllerCallback = MediaControllerCallback()
 
@@ -34,6 +37,10 @@ class SongServiceConnection(
     ).apply { connect() }
 
     private var mediaController: MediaControllerCompat? = null
+
+    fun setDuration(duration: Long) {
+        _duration.tryEmit(duration)
+    }
 
     fun subscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         mediaBrowser.subscribe(parentId, callback)
@@ -53,6 +60,18 @@ class SongServiceConnection(
 
     fun playSong(id: String) {
         mediaController?.transportControls?.playFromMediaId(id, null)
+    }
+
+    fun nextSong() {
+        mediaController?.transportControls?.skipToNext()
+    }
+
+    fun previousSong() {
+        mediaController?.transportControls?.skipToPrevious()
+    }
+
+    fun seek(position: Long) {
+        mediaController?.transportControls?.seekTo(position)
     }
 
     private inner class MediaBrowserCallback : MediaBrowserCompat.ConnectionCallback() {
