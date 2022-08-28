@@ -58,7 +58,7 @@ object Helper {
      * Navigates the user to connect us via Email
      */
     fun connectViaEmail(context: Context) {
-        with(Intent()) {
+        Intent().apply {
             data = Uri.fromParts("mailto", ConnectionConst.SUPPORT_MAIL, null)
             putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.improvement))
             context.startActivity(Intent.createChooser(this, context.getString(R.string.choose)))
