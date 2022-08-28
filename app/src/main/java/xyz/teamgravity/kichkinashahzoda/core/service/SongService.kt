@@ -38,22 +38,18 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     lateinit var connection: SongServiceConnection
 
     private var session: MediaSessionCompat? = null
-    private var notification: SongNotificationManager? = null
-    private var currentMetadata: MediaMetadataCompat? = null
-    private var connector: MediaSessionConnector? = null
 
     private var foregroundService = false
-    private var playerPlaying = true
+    private var playing = true
 
     override fun onCreate() {
         super.onCreate()
 
         initializeMediaSession()
         initializeSessionToken()
-        initializeSongNotificationManager()
         initializeMediaSessionConnector()
         initializePlayer()
-        showNotification()
+        initializeSongNotificationManager()
     }
 
     private fun initializeMediaSession() {
@@ -71,25 +67,15 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
         sessionToken = session!!.sessionToken
     }
 
-    private fun initializeSongNotificationManager() {
-        notification = SongNotificationManager(
-            context = this,
-            token = session!!.sessionToken,
-            listener = this,
-            onSongChange = { connection.setDuration(if (exoplayer.duration == C.TIME_UNSET) 0L else exoplayer.duration) }
-        )
-    }
-
     private fun initializeMediaSessionConnector() {
         val preparer = SongPlaybackPreparer(
             repository = repository,
             onPlaybackPrepare = { metadata ->
-                currentMetadata = metadata
                 preparePlayer(metadata!!)
             }
         )
 
-        connector = MediaSessionConnector(session!!).apply {
+        MediaSessionConnector(session!!).apply {
             setPlaybackPreparer(preparer)
             setQueueNavigator(MusicQueueNavigator())
             setPlayer(exoplayer)
@@ -102,8 +88,13 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
         exoplayer.prepare()
     }
 
-    private fun showNotification() {
-        notification?.show(exoplayer)
+    private fun initializeSongNotificationManager() {
+        SongNotificationManager(
+            context = this,
+            token = session!!.sessionToken,
+            listener = this,
+            onSongChange = { connection.setDuration(if (exoplayer.duration == C.TIME_UNSET) 0L else exoplayer.duration) }
+        ).show(exoplayer)
     }
 
     private fun preparePlayer(metadata: MediaMetadataCompat) {
@@ -123,8 +114,8 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
 
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
         super.onPlayWhenReadyChanged(playWhenReady, reason)
-        playerPlaying = playWhenReady
-        if (!playerPlaying) stopForeground(STOP_FOREGROUND_DETACH)
+        playing = playWhenReady
+        if (!playing) stopForeground(STOP_FOREGROUND_DETACH)
     }
 
     override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
@@ -144,7 +135,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
             }
 
             else -> {
-                if (playerPlaying) {
+                if (playing) {
                     startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
                     foregroundService = true
                 } else {
