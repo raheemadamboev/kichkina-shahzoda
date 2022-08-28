@@ -3,6 +3,7 @@ package xyz.teamgravity.kichkinashahzoda.core.service
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -54,7 +55,12 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
 
     private fun initializeMediaSession() {
         val intent = packageManager?.getLaunchIntentForPackage(packageName)?.let { intent ->
-            PendingIntent.getActivity(this, 0, intent, 0)
+            PendingIntent.getActivity(
+                this,
+                0,
+                intent,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+            )
         }
 
         session = MediaSessionCompat(this, TAG).apply {
