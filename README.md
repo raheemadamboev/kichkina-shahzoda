@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-🎵 "Kichkina Shahzoda" app demonstrates modern Android app development with Jetpack Compose, Hilt, Material3, Coroutines, Flows, ExoPlayer2 based on MVVM architecture. It plays "Kichkina Shahzoda" audio-book locally without internet.
+🎵 "Kichkina Shahzoda" app demonstrates modern Android app development with Jetpack Compose, Hilt, Material3, Coroutines, Flows, ExoPlayer2 based on MVVM architecture.
 </p>
 </br>
 
@@ -49,6 +49,23 @@ You can download the release app on Google Play Store:
   <img src="/preview/summary_1.png"/>
   <img src="/preview/summary_2.png"/>
 </p>
+
+# About
+
+A simple and light app that plays "Kichkina Shahzoda" audio-book without internet connection (locally). It also supports dark theme and dynamic theme. It also robust to configuration changes and has adaptive screens that load according to screen orientation. The audio is played in the service, so when the app is closed, it doesn't affect the audio-play. Audio can be easily controlled via music notification.
+
+# Features
+
+- Play and pause audios.
+- Skip to next and previous audios.
+- Seek to the position using slider.
+- Control the audio using music notification.
+- Dark/Light theme setup.
+- Dynamic theme setup.
+- Work without the internet.
+- Play audio in the background (service).
+- Simplicity that has only four screens.
+- Adaptive screens that change according to screen orientation.
 
 # License
 
