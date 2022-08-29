@@ -11,7 +11,7 @@
 </br>
 
 <p align="center">
-  <img src="/Kichkina%20Shahzoda.jpg"/>
+  <img src="/preview/Kichkina%20Shahzoda.jpg"/>
 </p>
 
 # Download
@@ -41,13 +41,13 @@ You can download the release app on Google Play Store:
 
 "Kichkina Shahzoda" is based on the MVVM architecture pattern, Repository pattern, Mapper pattern.
 
-<img src="/mvvm-pattern.png"/>
+<img src="/preview/mvvm-pattern.png"/>
 
 # MAD Score
 
 <p align="center">
-  <img src="/summary_1.png"/>
-  <img src="/summary_2.png"/>
+  <img src="/preview/summary_1.png"/>
+  <img src="/preview/summary_2.png"/>
 </p>
 
 # License
