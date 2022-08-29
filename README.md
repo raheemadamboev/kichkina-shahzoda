@@ -63,7 +63,7 @@ A simple and light app that plays "Kichkina Shahzoda" audio-book without interne
 - Control the audio using music notification.
 - Dark/Light theme setup.
 - Dynamic theme setup.
-- Work without the internet.
+- Works without the internet.
 - Play audio in the background (service).
 - Simplicity that has only four screens.
 - Adaptive screens that change according to screen orientation.
