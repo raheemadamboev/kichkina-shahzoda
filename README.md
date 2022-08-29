@@ -59,6 +59,7 @@ A simple and light app that plays "Kichkina Shahzoda" audio-book without interne
 - Play and pause audios.
 - Skip to next and previous audios.
 - Seek to the position using slider.
+- Choose the audio to play.
 - Control the audio using music notification.
 - Dark/Light theme setup.
 - Dynamic theme setup.
