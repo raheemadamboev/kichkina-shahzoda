@@ -53,7 +53,7 @@ You can download the release app on Google Play Store:
 # License
 
 ```xml
-Designed and developed by 2022 skydoves (Jaewoong Eum)
+Designed and developed by 2022 raheemadamboev (Raheem)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
