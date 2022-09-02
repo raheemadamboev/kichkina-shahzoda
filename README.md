@@ -67,6 +67,8 @@ A simple and light app that plays "Kichkina Shahzoda" audio-book without interne
 - Play audio in the background (service).
 - Simplicity that has only four screens.
 - Adaptive screens that change according to screen orientation.
+- Completely robust to process death.
+- Completely robust to configuration change.
 
 # License
 
