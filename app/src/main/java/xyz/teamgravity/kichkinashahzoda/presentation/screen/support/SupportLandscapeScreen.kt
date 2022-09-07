@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.Dimension
 import xyz.teamgravity.kichkinashahzoda.R
 import xyz.teamgravity.kichkinashahzoda.core.util.Helper
 import xyz.teamgravity.kichkinashahzoda.presentation.component.button.IconButtonPlain
+import xyz.teamgravity.kichkinashahzoda.presentation.component.card.CardConnection
 import xyz.teamgravity.kichkinashahzoda.presentation.theme.White
 
 @Composable
@@ -84,65 +85,31 @@ fun SupportLandscapeScreen(
                 linkTo(top = connectT.bottom, bottom = telegramB.top)
             },
         )
-        ElevatedCard(
-            shape = MaterialTheme.shapes.extraLarge,
+        CardConnection(
             onClick = { Helper.connectViaTelegram(context) },
+            icon = R.drawable.ic_telegram,
+            title = R.string.via_telegram,
+            contentDescription = R.string.cd_via_telegram,
+            fillMaxSize = false,
             modifier = Modifier.constrainAs(telegramB) {
                 width = Dimension.fillToConstraints
                 height = Dimension.preferredWrapContent
                 linkTo(start = parent.start, end = oneG, startMargin = 16.dp, endMargin = 8.dp)
                 linkTo(top = bodyT.bottom, bottom = parent.bottom)
             }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(16.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_telegram_round),
-                    contentDescription = stringResource(id = R.string.cd_via_telegram),
-                    modifier = Modifier.weight(0.2F)
-                )
-                Text(
-                    text = stringResource(id = R.string.via_telegram),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(0.8F)
-                )
-            }
-        }
-        ElevatedCard(
-            shape = MaterialTheme.shapes.extraLarge,
+        )
+        CardConnection(
             onClick = { Helper.connectViaEmail(context) },
+            icon = R.drawable.ic_mail,
+            title = R.string.via_email,
+            contentDescription = R.string.cd_via_email,
+            fillMaxSize = false,
             modifier = Modifier.constrainAs(emailB) {
                 width = Dimension.fillToConstraints
                 height = Dimension.preferredWrapContent
                 linkTo(start = oneG, end = parent.end, startMargin = 8.dp, endMargin = 16.dp)
                 linkTo(top = bodyT.bottom, bottom = parent.bottom)
             }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .wrapContentSize()
-                    .padding(16.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_mail_round),
-                    contentDescription = stringResource(id = R.string.cd_via_email),
-                    modifier = Modifier.weight(0.2F)
-                )
-                Text(
-                    text = stringResource(id = R.string.via_email),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(0.8F)
-                )
-            }
-        }
+        )
     }
 }
