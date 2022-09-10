@@ -1,5 +1,6 @@
 package xyz.teamgravity.kichkinashahzoda.core.service
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
@@ -136,15 +137,21 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
         super.onNotificationPosted(notificationId, notification, ongoing)
         when {
             ongoing && !foregroundService -> {
-                ContextCompat.startForegroundService(this, Intent(applicationContext, this::class.java))
-                startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
-                foregroundService = true
+                try {
+                    ContextCompat.startForegroundService(this, Intent(applicationContext, this::class.java))
+                    startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
+                    foregroundService = true
+                } catch (e: ForegroundServiceStartNotAllowedException) {
+                }
             }
 
             else -> {
                 if (playing) {
-                    startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
-                    foregroundService = true
+                    try {
+                        startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
+                        foregroundService = true
+                    } catch (e: ForegroundServiceStartNotAllowedException) {
+                    }
                 } else {
                     stopForegroundSafely(STOP_FOREGROUND_DETACH)
                 }
