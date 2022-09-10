@@ -19,7 +19,7 @@ fun MediaMetadataCompat.toMediaItem(): MediaBrowserCompat.MediaItem {
 
 fun MediaMetadataCompat.toSong(): SongModel {
     return SongModel(
-        id = description.mediaId!!,
+        id = description.mediaId ?: "1", // it must not be null, but very few devices fuck it up, so first song is default song id
         name = description.title.toString()
     )
 }

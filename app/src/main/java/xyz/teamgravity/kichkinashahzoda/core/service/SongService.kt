@@ -1,5 +1,6 @@
 package xyz.teamgravity.kichkinashahzoda.core.service
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
@@ -18,6 +19,7 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
+import xyz.teamgravity.kichkinashahzoda.core.extension.stopForegroundSafely
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 import javax.inject.Inject
 
@@ -121,12 +123,12 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
         super.onPlayWhenReadyChanged(playWhenReady, reason)
         playing = playWhenReady
-        if (!playing) stopForeground(STOP_FOREGROUND_DETACH)
+        if (!playing) stopForegroundSafely(STOP_FOREGROUND_DETACH)
     }
 
     override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
         super.onNotificationCancelled(notificationId, dismissedByUser)
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopForegroundSafely(STOP_FOREGROUND_REMOVE)
         foregroundService = false
         stopSelf()
     }
@@ -135,17 +137,23 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
         super.onNotificationPosted(notificationId, notification, ongoing)
         when {
             ongoing && !foregroundService -> {
-                ContextCompat.startForegroundService(this, Intent(applicationContext, this::class.java))
-                startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
-                foregroundService = true
+                try {
+                    ContextCompat.startForegroundService(this, Intent(applicationContext, this::class.java))
+                    startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
+                    foregroundService = true
+                } catch (e: ForegroundServiceStartNotAllowedException) {
+                }
             }
 
             else -> {
                 if (playing) {
-                    startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
-                    foregroundService = true
+                    try {
+                        startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
+                        foregroundService = true
+                    } catch (e: ForegroundServiceStartNotAllowedException) {
+                    }
                 } else {
-                    stopForeground(STOP_FOREGROUND_DETACH)
+                    stopForegroundSafely(STOP_FOREGROUND_DETACH)
                 }
             }
         }
