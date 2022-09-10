@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
+import xyz.teamgravity.kichkinashahzoda.core.extension.stopForegroundSafely
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 import javax.inject.Inject
 
@@ -121,12 +122,12 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
         super.onPlayWhenReadyChanged(playWhenReady, reason)
         playing = playWhenReady
-        if (!playing) stopForeground(STOP_FOREGROUND_DETACH)
+        if (!playing) stopForegroundSafely(STOP_FOREGROUND_DETACH)
     }
 
     override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
         super.onNotificationCancelled(notificationId, dismissedByUser)
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopForegroundSafely(STOP_FOREGROUND_REMOVE)
         foregroundService = false
         stopSelf()
     }
@@ -145,7 +146,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
                     startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
                     foregroundService = true
                 } else {
-                    stopForeground(STOP_FOREGROUND_DETACH)
+                    stopForegroundSafely(STOP_FOREGROUND_DETACH)
                 }
             }
         }
