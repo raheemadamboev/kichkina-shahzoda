@@ -1,10 +1,10 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.screen.support
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.WindowInfo
-import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.rememberWindowInfo
 import xyz.teamgravity.kichkinashahzoda.presentation.navigation.MainNavGraph
 
 @MainNavGraph
@@ -13,8 +13,8 @@ import xyz.teamgravity.kichkinashahzoda.presentation.navigation.MainNavGraph
 fun SupportScreen(
     navigator: DestinationsNavigator,
 ) {
-    when (rememberWindowInfo().screenWidthInfo) {
-        WindowInfo.WindowType.Compact -> SupportPortraitScreen(onBackButtonClick = navigator::popBackStack)
+    when (LocalConfiguration.current.orientation) {
+        Configuration.ORIENTATION_PORTRAIT -> SupportPortraitScreen(onBackButtonClick = navigator::popBackStack)
         else -> SupportLandscapeScreen(onBackButtonClick = navigator::popBackStack)
     }
 }
