@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.screen.song
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.song
 
 import android.content.res.Configuration
 import androidx.compose.runtime.Composable

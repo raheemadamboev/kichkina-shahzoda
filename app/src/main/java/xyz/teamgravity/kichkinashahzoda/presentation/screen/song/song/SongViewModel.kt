@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.viewmodel
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.song
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

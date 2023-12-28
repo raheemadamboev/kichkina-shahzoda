@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.screen
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +31,6 @@ import xyz.teamgravity.kichkinashahzoda.presentation.navigation.MainNavGraph
 import xyz.teamgravity.kichkinashahzoda.presentation.screen.destinations.AboutScreenDestination
 import xyz.teamgravity.kichkinashahzoda.presentation.screen.destinations.SongScreenDestination
 import xyz.teamgravity.kichkinashahzoda.presentation.screen.destinations.SupportScreenDestination
-import xyz.teamgravity.kichkinashahzoda.presentation.viewmodel.SongListViewModel
 
 @MainNavGraph(start = true)
 @Destination

@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.screen.song
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.song
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,10 +24,9 @@ import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.SongControll
 import xyz.teamgravity.kichkinashahzoda.presentation.component.slider.SongSlider
 import xyz.teamgravity.kichkinashahzoda.presentation.component.text.TextPlain
 import xyz.teamgravity.kichkinashahzoda.presentation.component.topbar.TopBar
-import xyz.teamgravity.kichkinashahzoda.presentation.viewmodel.SongViewModel
 
 @Composable
-fun SongPortraitScreen(
+fun SongLandscapeScreen(
     onBackButtonClick: () -> Unit,
     viewmodel: SongViewModel = hiltViewModel(),
 ) {
@@ -52,24 +51,26 @@ fun SongPortraitScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            val (nameT, coverI, sliderC, controllerC) = createRefs()
+            val (coverI, nameT, sliderC, controllerC) = createRefs()
+            val oneG = createGuidelineFromStart(0.4F)
 
+            Image(
+                painter = painterResource(id = R.drawable.icon),
+                contentDescription = stringResource(id = R.string.cd_album_cover),
+                modifier = Modifier.constrainAs(coverI) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+                    linkTo(start = parent.start, end = oneG, startMargin = 20.dp, endMargin = 20.dp)
+                    linkTo(top = parent.top, bottom = parent.bottom, topMargin = 20.dp, bottomMargin = 20.dp)
+                }
+            )
             Text(
                 text = viewmodel.song?.name ?: SongConst.NAME_1,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.constrainAs(nameT) {
                     width = Dimension.fillToConstraints
-                    linkTo(start = parent.start, end = parent.end, startMargin = 20.dp, endMargin = 20.dp)
-                }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.icon),
-                contentDescription = stringResource(id = R.string.cd_album_cover),
-                modifier = Modifier.constrainAs(coverI) {
-                    width = Dimension.value(300.dp)
-                    height = Dimension.value(300.dp)
-                    linkTo(start = parent.start, end = parent.end)
+                    linkTo(start = oneG, end = parent.end, startMargin = 20.dp, endMargin = 20.dp)
                 }
             )
             SongSlider(
@@ -83,7 +84,7 @@ fun SongPortraitScreen(
                 onPositionUserChangeFinished = viewmodel::onSeek,
                 modifier = Modifier.constrainAs(sliderC) {
                     width = Dimension.fillToConstraints
-                    linkTo(start = parent.start, end = parent.end, startMargin = 16.dp, endMargin = 16.dp)
+                    linkTo(start = oneG, end = parent.end, startMargin = 20.dp, endMargin = 20.dp)
                 }
             )
             SongController(
@@ -92,11 +93,12 @@ fun SongPortraitScreen(
                 onPlayPause = viewmodel::onPlayPause,
                 onNextSong = viewmodel::onNextSong,
                 modifier = Modifier.constrainAs(controllerC) {
-                    width = Dimension.matchParent
+                    width = Dimension.fillToConstraints
+                    linkTo(start = oneG, end = parent.end, startMargin = 20.dp, endMargin = 20.dp)
                 }
             )
 
-            createVerticalChain(nameT, coverI, sliderC, controllerC)
+            createVerticalChain(nameT, sliderC, controllerC)
         }
     }
 }
