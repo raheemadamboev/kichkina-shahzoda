@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 
@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Kichkina Shahzoda"
-include ':app'
+include(":app")
