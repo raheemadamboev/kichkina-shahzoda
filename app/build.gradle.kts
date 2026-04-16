@@ -123,6 +123,7 @@ dependencies {
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         freeCompilerArgs.addAll(
+            "-Xannotation-default-target=param-property",
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
         )
     }

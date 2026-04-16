@@ -2,9 +2,11 @@ package xyz.teamgravity.kichkinashahzoda.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import com.ramcosta.composedestinations.DestinationsNavHost
-import xyz.teamgravity.kichkinashahzoda.presentation.screen.NavGraphs
+import com.ramcosta.composedestinations.generated.NavGraphs
 
 @Composable
 fun Navigation() {
-    DestinationsNavHost(navGraph = NavGraphs.main)
+    DestinationsNavHost(
+        navGraph = NavGraphs.main
+    )
 }

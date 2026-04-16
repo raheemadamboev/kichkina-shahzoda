@@ -1,12 +1,9 @@
 package xyz.teamgravity.kichkinashahzoda.injection.app
 
 import android.app.Application
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.os.Build
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import xyz.teamgravity.coresdkandroid.notification.NotificationManager
 import xyz.teamgravity.kichkinashahzoda.BuildConfig
 import xyz.teamgravity.kichkinashahzoda.R
 import xyz.teamgravity.kichkinashahzoda.core.service.SongNotificationManager
@@ -16,25 +13,30 @@ import javax.inject.Inject
 class App : Application() {
 
     @Inject
-    lateinit var tree: Timber.DebugTree
+    lateinit var tree: Timber.Tree
+
+    @Inject
+    lateinit var notification: NotificationManager
 
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) Timber.plant(tree)
+        initializeTimber()
         createNotificationChannel()
     }
 
+    private fun initializeTimber() {
+        if (BuildConfig.DEBUG) Timber.plant(tree)
+    }
+
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel(
-                SongNotificationManager.CHANNEL_ID,
-                getString(R.string.notification_channel_player),
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = getString(R.string.notification_channel_description_player)
-                (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(this)
-            }
-        }
+        notification.createChannel(
+            id = SongNotificationManager.CHANNEL_ID,
+            name = R.string.notification_channel_player,
+            description = R.string.notification_channel_description_player,
+            vibrate = false,
+            showBadge = false,
+            force = true
+        )
     }
 }

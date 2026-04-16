@@ -1,11 +1,15 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.component.misc
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Pause
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.SkipNext
-import androidx.compose.material.icons.filled.SkipPrevious
+import androidx.compose.material.icons.rounded.Pause
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.SkipNext
+import androidx.compose.material.icons.rounded.SkipPrevious
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -21,7 +25,7 @@ fun SongController(
     onPreviousSong: () -> Unit,
     onPlayPause: () -> Unit,
     onNextSong: () -> Unit,
-    modifier: Modifier,
+    modifier: Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -33,28 +37,32 @@ fun SongController(
             modifier = Modifier.size(50.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.SkipPrevious,
-                contentDescription = stringResource(id = R.string.cd_skip_previous)
+                imageVector = Icons.Rounded.SkipPrevious,
+                contentDescription = stringResource(R.string.cd_skip_previous)
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(
+            modifier = Modifier.width(16.dp)
+        )
         FilledTonalIconButton(
             onClick = onPlayPause,
             modifier = Modifier.size(80.dp)
         ) {
             Icon(
-                imageVector = if (playing) Icons.Default.Pause else Icons.Default.PlayArrow,
-                contentDescription = stringResource(id = R.string.cd_play_pause),
+                imageVector = if (playing) Icons.Rounded.Pause else Icons.Rounded.PlayArrow,
+                contentDescription = stringResource(R.string.cd_play_pause),
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(
+            modifier = Modifier.width(16.dp)
+        )
         FilledTonalIconButton(
             onClick = onNextSong,
             modifier = Modifier.size(50.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.SkipNext,
-                contentDescription = stringResource(id = R.string.cd_skip_next)
+                imageVector = Icons.Rounded.SkipNext,
+                contentDescription = stringResource(R.string.cd_skip_next)
             )
         }
     }

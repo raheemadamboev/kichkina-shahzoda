@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Kichkina Shahzoda</string>
-    <string name="raheem" translatable="false">Raheem</string>
 
     <!-- SongList -->
     <string name="share_app">Kichkina Shahzoda asarini audio ravishda tinglashni xohlaysizmi? Unda Kichkina Shahzoda bepul dasturini yuklab oling -> %1$s</string>

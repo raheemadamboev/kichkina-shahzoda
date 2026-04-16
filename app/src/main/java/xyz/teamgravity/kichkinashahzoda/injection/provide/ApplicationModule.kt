@@ -7,11 +7,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
+import xyz.teamgravity.coresdkandroid.notification.NotificationManager
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Singleton
+
+private typealias AndroidNotificationManager = android.app.NotificationManager
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,8 +26,7 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideMainRepository(defaultDataSourceFactory: DefaultDataSource.Factory): MainRepository =
-        MainRepository(defaultDataSourceFactory)
+    fun provideMainRepository(defaultDataSourceFactory: DefaultDataSource.Factory): MainRepository = MainRepository(defaultDataSourceFactory)
 
     @Provides
     @Singleton
@@ -37,4 +39,19 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideSimpleDateFormat(): SimpleDateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
+
+    @Provides
+    @Singleton
+    fun provideAndroidNotificationManager(application: Application): AndroidNotificationManager =
+        application.getSystemService(AndroidNotificationManager::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNotificationManager(
+        application: Application,
+        androidNotificationManager: AndroidNotificationManager
+    ): NotificationManager = NotificationManager(
+        application = application,
+        manager = androidNotificationManager
+    )
 }

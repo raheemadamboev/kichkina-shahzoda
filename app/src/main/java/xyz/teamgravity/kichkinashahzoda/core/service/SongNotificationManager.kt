@@ -13,36 +13,36 @@ import xyz.teamgravity.kichkinashahzoda.R
 class SongNotificationManager(
     private val context: Context,
     private val token: MediaSessionCompat.Token,
-    private val listener: PlayerNotificationManager.NotificationListener,
     private val onSongChange: () -> Unit,
+    listener: PlayerNotificationManager.NotificationListener
 ) {
 
     companion object {
-        const val CHANNEL_ID = "crybaby_music"
-        const val NOTIFICATION_ID = 0x5454
+        const val CHANNEL_ID = "xyz.teamgravity.kichkinashahzoda.SongNotificationManager"
+        const val NOTIFICATION_ID = 8000
     }
 
-    private var manager: PlayerNotificationManager? = null
+    private val manager: PlayerNotificationManager = PlayerNotificationManager.Builder(context, NOTIFICATION_ID, CHANNEL_ID)
+        .setChannelNameResourceId(R.string.notification_channel_player)
+        .setChannelDescriptionResourceId(R.string.notification_channel_description_player)
+        .setMediaDescriptionAdapter(DescriptionAdapter(MediaControllerCompat(context, token)))
+        .setNotificationListener(listener)
+        .build().apply {
+            setSmallIcon(R.drawable.ic_music)
+            setMediaSessionToken(token)
+        }
 
-    init {
-        initializeManager()
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    // API
+    ///////////////////////////////////////////////////////////////////////////
 
     fun show(player: Player) {
-        manager?.setPlayer(player)
+        manager.setPlayer(player)
     }
 
-    private fun initializeManager() {
-        manager = PlayerNotificationManager.Builder(context, NOTIFICATION_ID, CHANNEL_ID)
-            .setChannelNameResourceId(R.string.notification_channel_player)
-            .setChannelDescriptionResourceId(R.string.notification_channel_description_player)
-            .setMediaDescriptionAdapter(DescriptionAdapter(MediaControllerCompat(context, token)))
-            .setNotificationListener(listener)
-            .build().apply {
-                setSmallIcon(R.drawable.ic_music)
-                setMediaSessionToken(token)
-            }
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    // Misc
+    ///////////////////////////////////////////////////////////////////////////
 
     private inner class DescriptionAdapter(
         private val controller: MediaControllerCompat,

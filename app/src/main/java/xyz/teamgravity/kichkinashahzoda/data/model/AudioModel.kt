@@ -5,5 +5,5 @@ import androidx.annotation.RawRes
 data class AudioModel(
     val id: Int,
     val name: String,
-    @RawRes val audio: Int,
+    @RawRes val audio: Int
 )

@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.viewmodel
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.list
 
 import android.support.v4.media.MediaBrowserCompat
 import androidx.compose.runtime.getValue
@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SongListViewModel @Inject constructor(
-    private val connection: SongServiceConnection,
+    private val connection: SongServiceConnection
 ) : ViewModel() {
 
     var songs: List<SongModel> by mutableStateOf(emptyList())
@@ -33,7 +33,7 @@ class SongListViewModel @Inject constructor(
     var menuExpanded: Boolean by mutableStateOf(false)
         private set
 
-    private val listener = object : MediaBrowserCompat.SubscriptionCallback() {
+    private val listener: MediaBrowserCompat.SubscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
         override fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>) {
             super.onChildrenLoaded(parentId, children)
             songs = children.map { it.toSong() }
@@ -44,20 +44,9 @@ class SongListViewModel @Inject constructor(
         observe()
     }
 
-    fun onMenuExpand() {
-        menuExpanded = true
-    }
-
-    fun onMenuCollapse() {
-        menuExpanded = false
-    }
-
-    fun onPlayPause() {
-        if (playing) connection.pause() else connection.play()
-    }
-
-    fun onSongClick(song: SongModel) {
-        connection.playSong(song.id)
+    override fun onCleared() {
+        super.onCleared()
+        connection.unsubscribe(SongService.ID, listener)
     }
 
     private fun observe() {
@@ -86,8 +75,23 @@ class SongListViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        connection.unsubscribe(SongService.ID, listener)
+    ///////////////////////////////////////////////////////////////////////////
+    // API
+    ///////////////////////////////////////////////////////////////////////////
+
+    fun onMenuExpand() {
+        menuExpanded = true
+    }
+
+    fun onMenuCollapse() {
+        menuExpanded = false
+    }
+
+    fun onPlayPause() {
+        if (playing) connection.pause() else connection.play()
+    }
+
+    fun onSongHandle(song: SongModel) {
+        connection.playSong(song.id)
     }
 }

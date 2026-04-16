@@ -2,16 +2,19 @@ package xyz.teamgravity.kichkinashahzoda.core.service
 
 import android.content.ComponentName
 import android.content.Context
-import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class SongServiceConnection(
-    private val context: Context,
+    private val context: Context
 ) {
 
     private val _connected = Channel<Boolean>()
@@ -29,7 +32,7 @@ class SongServiceConnection(
     private val mediaBrowserCallback = MediaBrowserCallback()
     private val mediaControllerCallback = MediaControllerCallback()
 
-    private val mediaBrowser = MediaBrowserCompat(
+    private val mediaBrowser: MediaBrowserCompat = MediaBrowserCompat(
         context,
         ComponentName(context, SongService::class.java),
         mediaBrowserCallback,
@@ -37,6 +40,10 @@ class SongServiceConnection(
     ).apply { connect() }
 
     private var mediaController: MediaControllerCompat? = null
+
+    ///////////////////////////////////////////////////////////////////////////
+    // API
+    ///////////////////////////////////////////////////////////////////////////
 
     fun setDuration(duration: Long) {
         _duration.tryEmit(duration)
@@ -74,6 +81,10 @@ class SongServiceConnection(
         mediaController?.transportControls?.seekTo(position)
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Misc
+    ///////////////////////////////////////////////////////////////////////////
+
     private inner class MediaBrowserCallback : MediaBrowserCompat.ConnectionCallback() {
 
         override fun onConnected() {
@@ -100,10 +111,6 @@ class SongServiceConnection(
 
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
             _metadata.tryEmit(metadata)
-        }
-
-        override fun onSessionEvent(event: String?, extras: Bundle?) {
-            super.onSessionEvent(event, extras)
         }
 
         override fun onSessionDestroyed() {

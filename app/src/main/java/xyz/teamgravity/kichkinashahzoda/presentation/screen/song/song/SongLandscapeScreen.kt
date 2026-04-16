@@ -1,19 +1,15 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.screen.about
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.song
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.MaterialTheme
@@ -22,21 +18,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import xyz.teamgravity.coresdkcompose.button.IconButtonPlain
 import xyz.teamgravity.coresdkcompose.text.TextPlain
-import xyz.teamgravity.kichkinashahzoda.BuildConfig
 import xyz.teamgravity.kichkinashahzoda.R
+import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
+import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.SongController
+import xyz.teamgravity.kichkinashahzoda.presentation.component.slider.SongSlider
 import xyz.teamgravity.kichkinashahzoda.presentation.component.topbar.TopBar
 
 @Composable
-fun AboutLandscapeScreen(
-    onBackButtonClick: () -> Unit
+fun SongLandscapeScreen(
+    onBackButtonClick: () -> Unit,
+    viewmodel: SongViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -58,7 +56,6 @@ fun AboutLandscapeScreen(
         contentWindowInsets = WindowInsets.safeDrawing
     ) { padding ->
         Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxSize()
@@ -66,35 +63,43 @@ fun AboutLandscapeScreen(
         ) {
             Image(
                 painter = painterResource(R.drawable.icon),
-                contentDescription = stringResource(R.string.cd_app_icon),
-                contentScale = ContentScale.Crop,
+                contentDescription = stringResource(R.string.cd_album_cover),
                 modifier = Modifier
-                    .size(180.dp)
-                    .clip(RoundedCornerShape(35.dp))
+                    .padding(20.dp)
+                    .fillMaxHeight()
+                    .weight(0.4F)
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxHeight()
+                verticalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(0.6F)
+                    .padding(horizontal = 20.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.displayMedium,
-                    fontWeight = FontWeight.Bold
+                    text = viewmodel.song?.name ?: SongConst.NAME_1,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Text(
-                    text = BuildConfig.VERSION_NAME,
-                    style = MaterialTheme.typography.bodyMedium
+                SongSlider(
+                    position = viewmodel.position,
+                    positionText = viewmodel.positionText,
+                    positionUser = viewmodel.positionUser,
+                    positionUserText = viewmodel.positionUserText,
+                    duration = viewmodel.duration,
+                    durationText = viewmodel.durationText,
+                    onPositionUserChange = viewmodel::onPositionUserChange,
+                    onPositionUserChangeFinished = viewmodel::onSeek,
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(
-                    modifier = Modifier.height(16.dp)
-                )
-                Image(
-                    painter = painterResource(R.drawable.gravity),
-                    contentDescription = stringResource(R.string.cd_company_logo),
-                    modifier = Modifier
-                        .width(100.dp)
-                        .height(20.dp)
+                SongController(
+                    playing = viewmodel.playing,
+                    onPreviousSong = viewmodel::onPreviousSong,
+                    onPlayPause = viewmodel::onPlayPause,
+                    onNextSong = viewmodel::onNextSong,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }

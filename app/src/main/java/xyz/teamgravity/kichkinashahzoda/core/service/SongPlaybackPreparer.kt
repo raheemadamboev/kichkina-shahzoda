@@ -11,7 +11,7 @@ import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 
 class SongPlaybackPreparer(
     private val repository: MainRepository,
-    private val onPlaybackPrepare: (MediaMetadataCompat?) -> Unit,
+    private val onPlaybackPrepare: (MediaMetadataCompat?) -> Unit
 ) : MediaSessionConnector.PlaybackPreparer {
 
     override fun onCommand(player: Player, command: String, extras: Bundle?, cb: ResultReceiver?): Boolean {
