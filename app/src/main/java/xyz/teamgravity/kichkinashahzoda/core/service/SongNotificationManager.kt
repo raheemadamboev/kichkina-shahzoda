@@ -62,7 +62,7 @@ class SongNotificationManager(
         }
 
         override fun getCurrentLargeIcon(player: Player, callback: PlayerNotificationManager.BitmapCallback): Bitmap? {
-            return BitmapFactory.decodeResource(context.resources, R.drawable.icon)
+            return BitmapFactory.decodeResource(context.resources, R.drawable.logo_icon)
         }
     }
 }

@@ -78,7 +78,7 @@ fun SupportPortraitScreen(
                     )
                 }
                 Image(
-                    painter = painterResource(R.drawable.sticker_customer_service),
+                    painter = painterResource(R.drawable.image_customer_service),
                     contentDescription = stringResource(R.string.cd_user_support),
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.Center,

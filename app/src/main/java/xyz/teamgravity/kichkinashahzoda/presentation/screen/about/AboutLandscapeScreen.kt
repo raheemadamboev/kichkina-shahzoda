@@ -65,7 +65,7 @@ fun AboutLandscapeScreen(
                 .padding(padding)
         ) {
             Image(
-                painter = painterResource(R.drawable.icon),
+                painter = painterResource(R.drawable.logo_icon),
                 contentDescription = stringResource(R.string.cd_app_icon),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -90,7 +90,7 @@ fun AboutLandscapeScreen(
                     modifier = Modifier.height(16.dp)
                 )
                 Image(
-                    painter = painterResource(R.drawable.gravity),
+                    painter = painterResource(R.drawable.logo_gravity),
                     contentDescription = stringResource(R.string.cd_company_logo),
                     modifier = Modifier
                         .width(100.dp)

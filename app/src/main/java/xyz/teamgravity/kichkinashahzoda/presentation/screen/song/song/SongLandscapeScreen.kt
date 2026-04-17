@@ -62,7 +62,7 @@ fun SongLandscapeScreen(
                 .padding(padding)
         ) {
             Image(
-                painter = painterResource(R.drawable.icon),
+                painter = painterResource(R.drawable.logo_icon),
                 contentDescription = stringResource(R.string.cd_album_cover),
                 modifier = Modifier
                     .padding(20.dp)

@@ -69,8 +69,8 @@ fun SongPortraitScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             Image(
-                painter = painterResource(id = R.drawable.icon),
-                contentDescription = stringResource(id = R.string.cd_album_cover),
+                painter = painterResource(R.drawable.logo_icon),
+                contentDescription = stringResource(R.string.cd_album_cover),
                 modifier = Modifier.size(300.dp)
             )
             SongSlider(

@@ -39,7 +39,7 @@ fun CardSong(
             modifier = Modifier.fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(R.drawable.sticker_album_cover),
+                painter = painterResource(R.drawable.image_album_cover),
                 contentDescription = stringResource(R.string.cd_album_cover),
                 modifier = Modifier.size(75.dp)
             )
