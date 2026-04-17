@@ -11,6 +11,7 @@ import xyz.teamgravity.coresdkandroid.crypto.CryptoManager
 import xyz.teamgravity.coresdkandroid.notification.NotificationManager
 import xyz.teamgravity.coresdkandroid.preferences.Preferences
 import xyz.teamgravity.coresdkandroid.review.ReviewManager
+import xyz.teamgravity.coresdkandroid.update.UpdateManager
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 import java.text.SimpleDateFormat
@@ -81,4 +82,8 @@ object ApplicationModule {
         preferences = preferences,
         context = application
     )
+
+    @Provides
+    @Singleton
+    fun provideUpdateManager(application: Application): UpdateManager = UpdateManager(application)
 }

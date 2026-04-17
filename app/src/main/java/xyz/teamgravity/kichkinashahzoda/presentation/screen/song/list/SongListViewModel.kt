@@ -2,6 +2,8 @@ package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.list
 
 import android.app.Activity
 import android.support.v4.media.MediaBrowserCompat
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import xyz.teamgravity.coresdkandroid.review.ReviewManager
+import xyz.teamgravity.coresdkandroid.update.UpdateManager
 import xyz.teamgravity.kichkinashahzoda.core.extension.isPlaying
 import xyz.teamgravity.kichkinashahzoda.core.service.SongService
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
@@ -27,7 +30,8 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class SongListViewModel @Inject constructor(
     private val connection: SongServiceConnection,
-    private val review: ReviewManager
+    private val review: ReviewManager,
+    private val update: UpdateManager
 ) : ViewModel() {
 
     var songs: List<SongModel> by mutableStateOf(emptyList())
@@ -43,6 +47,12 @@ class SongListViewModel @Inject constructor(
         private set
 
     var reviewShown: Boolean by mutableStateOf(false)
+        private set
+
+    var updateAvailableType: UpdateManager.Type by mutableStateOf(UpdateManager.Type.None)
+        private set
+
+    var updateDownloadedShown: Boolean by mutableStateOf(false)
         private set
 
     private val _event = Channel<SongListEvent>()
@@ -69,6 +79,7 @@ class SongListViewModel @Inject constructor(
         observeCurrentSong()
         observePlaybackState()
         observeReviewEvent()
+        observeUpdateEvent()
     }
 
     private suspend fun handleReviewEvent(event: ReviewManager.ReviewEvent) {
@@ -76,6 +87,22 @@ class SongListViewModel @Inject constructor(
             ReviewManager.ReviewEvent.Eligible -> {
                 delay(1.seconds)
                 reviewShown = true
+            }
+        }
+    }
+
+    private suspend fun handleUpdateEvent(event: UpdateManager.UpdateEvent) {
+        when (event) {
+            is UpdateManager.UpdateEvent.Available -> {
+                updateAvailableType = event.type
+            }
+
+            UpdateManager.UpdateEvent.StartDownload -> {
+                _event.send(SongListEvent.DownloadAppUpdate)
+            }
+
+            UpdateManager.UpdateEvent.Downloaded -> {
+                updateDownloadedShown = true
             }
         }
     }
@@ -104,6 +131,14 @@ class SongListViewModel @Inject constructor(
         viewModelScope.launch {
             review.event.collect { event ->
                 handleReviewEvent(event)
+            }
+        }
+    }
+
+    private fun observeUpdateEvent() {
+        viewModelScope.launch {
+            update.event.collect { event ->
+                handleUpdateEvent(event)
             }
         }
     }
@@ -155,11 +190,38 @@ class SongListViewModel @Inject constructor(
         review.review(activity)
     }
 
+    fun onUpdateCheck() {
+        update.monitor()
+    }
+
+    fun onUpdateDownload(launcher: ActivityResultLauncher<IntentSenderRequest>) {
+        update.downloadAppUpdate(launcher)
+    }
+
+    fun onUpdateAvailableDismiss() {
+        updateAvailableType = UpdateManager.Type.None
+    }
+
+    fun onUpdateAvailableConfirm() {
+        viewModelScope.launch {
+            _event.send(SongListEvent.DownloadAppUpdate)
+        }
+    }
+
+    fun onUpdateDownloadedDismiss() {
+        updateDownloadedShown = false
+    }
+
+    fun onUpdateInstall() {
+        update.installAppUpdate()
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // Misc
     ///////////////////////////////////////////////////////////////////////////
 
     enum class SongListEvent {
-        Review;
+        Review,
+        DownloadAppUpdate;
     }
 }

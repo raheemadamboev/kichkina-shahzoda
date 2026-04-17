@@ -1,6 +1,8 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.list
 
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -26,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.destinations.AboutScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SongScreenDestination
@@ -36,6 +40,8 @@ import xyz.teamgravity.coresdkcompose.button.IconButtonPlain
 import xyz.teamgravity.coresdkcompose.observe.ObserveEvent
 import xyz.teamgravity.coresdkcompose.review.DialogReview
 import xyz.teamgravity.coresdkcompose.text.TextPlain
+import xyz.teamgravity.coresdkcompose.update.DialogUpdateAvailable
+import xyz.teamgravity.coresdkcompose.update.DialogUpdateDownloaded
 import xyz.teamgravity.kichkinashahzoda.R
 import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
 import xyz.teamgravity.kichkinashahzoda.core.util.Helper
@@ -52,6 +58,10 @@ fun SongListScreen(
 ) {
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val updateLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult(),
+        onResult = {}
+    )
 
     ObserveEvent(
         flow = viewmodel.event,
@@ -60,8 +70,17 @@ fun SongListScreen(
                 SongListViewModel.SongListEvent.Review -> {
                     viewmodel.onReview(activity)
                 }
+
+                SongListViewModel.SongListEvent.DownloadAppUpdate -> {
+                    viewmodel.onUpdateDownload(updateLauncher)
+                }
             }
         }
+    )
+
+    LifecycleEventEffect(
+        event = Lifecycle.Event.ON_RESUME,
+        onEvent = viewmodel::onUpdateCheck
     )
 
     Scaffold(
@@ -151,6 +170,16 @@ fun SongListScreen(
             onDeny = viewmodel::onReviewDeny,
             onRemindLater = viewmodel::onReviewLater,
             onReview = viewmodel::onReviewConfirm
+        )
+        DialogUpdateAvailable(
+            type = viewmodel.updateAvailableType,
+            onDismiss = viewmodel::onUpdateAvailableDismiss,
+            onConfirm = viewmodel::onUpdateAvailableConfirm
+        )
+        DialogUpdateDownloaded(
+            visible = viewmodel.updateDownloadedShown,
+            onDismiss = viewmodel::onUpdateDownloadedDismiss,
+            onConfirm = viewmodel::onUpdateInstall
         )
     }
 }
