@@ -1,5 +1,6 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.list
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,10 @@ import com.ramcosta.composedestinations.generated.destinations.AboutScreenDestin
 import com.ramcosta.composedestinations.generated.destinations.SongScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SupportScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import xyz.teamgravity.coresdkandroid.connect.ConnectUtil
 import xyz.teamgravity.coresdkcompose.button.IconButtonPlain
+import xyz.teamgravity.coresdkcompose.observe.ObserveEvent
+import xyz.teamgravity.coresdkcompose.review.DialogReview
 import xyz.teamgravity.coresdkcompose.text.TextPlain
 import xyz.teamgravity.kichkinashahzoda.R
 import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
@@ -47,6 +51,18 @@ fun SongListScreen(
     viewmodel: SongListViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val activity = LocalActivity.current
+
+    ObserveEvent(
+        flow = viewmodel.event,
+        onEvent = { event ->
+            when (event) {
+                SongListViewModel.SongListEvent.Review -> {
+                    viewmodel.onReview(activity)
+                }
+            }
+        }
+    )
 
     Scaffold(
         topBar = {
@@ -68,7 +84,7 @@ fun SongListScreen(
                             Helper.shareApp(context)
                         },
                         onRate = {
-                            // TODO implement
+                            ConnectUtil.viewAppPlayStorePage(context)
                         },
                         onSourceCode = {
                             Helper.viewSourceCode(context)
@@ -129,5 +145,12 @@ fun SongListScreen(
                 )
             }
         }
+        DialogReview(
+            visible = viewmodel.reviewShown,
+            onDismiss = viewmodel::onReviewDismiss,
+            onDeny = viewmodel::onReviewDeny,
+            onRemindLater = viewmodel::onReviewLater,
+            onReview = viewmodel::onReviewConfirm
+        )
     }
 }

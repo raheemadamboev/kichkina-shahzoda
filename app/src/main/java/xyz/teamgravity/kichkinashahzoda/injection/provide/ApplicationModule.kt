@@ -7,7 +7,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import timber.log.Timber
+import xyz.teamgravity.coresdkandroid.crypto.CryptoManager
 import xyz.teamgravity.coresdkandroid.notification.NotificationManager
+import xyz.teamgravity.coresdkandroid.preferences.Preferences
+import xyz.teamgravity.coresdkandroid.review.ReviewManager
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 import java.text.SimpleDateFormat
@@ -53,5 +56,29 @@ object ApplicationModule {
     ): NotificationManager = NotificationManager(
         application = application,
         manager = androidNotificationManager
+    )
+
+    @Provides
+    @Singleton
+    fun provideCryptoManager(): CryptoManager = CryptoManager()
+
+    @Provides
+    @Singleton
+    fun providePreferences(
+        cryptoManager: CryptoManager,
+        application: Application
+    ): Preferences = Preferences(
+        crypto = cryptoManager,
+        context = application
+    )
+
+    @Provides
+    @Singleton
+    fun provideReviewManager(
+        preferences: Preferences,
+        application: Application
+    ): ReviewManager = ReviewManager(
+        preferences = preferences,
+        context = application
     )
 }

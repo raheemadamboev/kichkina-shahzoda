@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import xyz.teamgravity.coresdkandroid.notification.NotificationManager
+import xyz.teamgravity.coresdkandroid.review.ReviewManager
 import xyz.teamgravity.kichkinashahzoda.BuildConfig
 import xyz.teamgravity.kichkinashahzoda.R
 import xyz.teamgravity.kichkinashahzoda.core.service.SongNotificationManager
@@ -18,11 +19,15 @@ class App : Application() {
     @Inject
     lateinit var notification: NotificationManager
 
+    @Inject
+    lateinit var review: ReviewManager
+
     override fun onCreate() {
         super.onCreate()
 
         initializeTimber()
         createNotificationChannel()
+        monitorReview()
     }
 
     private fun initializeTimber() {
@@ -38,5 +43,9 @@ class App : Application() {
             showBadge = false,
             force = true
         )
+    }
+
+    private fun monitorReview() {
+        review.monitor()
     }
 }
