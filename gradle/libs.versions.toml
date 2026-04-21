@@ -14,7 +14,7 @@ coroutines = "1.10.2"
 exoplayer = "2.19.1"
 destinations = "2.3.0"
 timber = "5.0.1"
-gravity-core = "1.0.42"
+gravity-core = "1.0.44"
 gravity-core-compose = "1.0.29"
 
 android = "9.1.1"

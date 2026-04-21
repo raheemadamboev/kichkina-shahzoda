@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
@@ -26,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -58,6 +62,7 @@ fun SongListScreen(
 ) {
     val context = LocalContext.current
     val activity = LocalActivity.current
+    val direction = LocalLayoutDirection.current
     val updateLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
         onResult = {}
@@ -120,7 +125,11 @@ fun SongListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
+                .padding(
+                    start = padding.calculateStartPadding(direction),
+                    top = padding.calculateTopPadding(),
+                    end = padding.calculateEndPadding(direction)
+                )
         ) {
             LazyColumn(
                 modifier = Modifier.weight(1F)
@@ -163,6 +172,12 @@ fun SongListScreen(
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(padding.calculateBottomPadding())
+                    .background(MaterialTheme.colorScheme.primary)
+            )
         }
         DialogReview(
             visible = viewmodel.reviewShown,
