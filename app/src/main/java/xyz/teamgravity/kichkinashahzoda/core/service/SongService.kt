@@ -1,6 +1,5 @@
 package xyz.teamgravity.kichkinashahzoda.core.service
 
-import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
@@ -98,7 +97,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK else 0
                 )
                 foregroundService = true
-            } catch (e: ForegroundServiceStartNotAllowedException) {
+            } catch (e: IllegalStateException) {
                 Timber.e(e)
             }
         } else if (foregroundService) {
