@@ -1,6 +1,6 @@
 [versions]
 
-compose = "2026.03.01"
+compose = "2026.04.01"
 compose-icons = "1.7.8"
 compose-activity = "1.13.0"
 compose-lifecycle = "2.10.0"
@@ -14,12 +14,12 @@ coroutines = "1.10.2"
 exoplayer = "2.19.1"
 destinations = "2.3.0"
 timber = "5.0.1"
-gravity-core = "1.0.44"
-gravity-core-compose = "1.0.29"
+gravity-core = "1.0.45"
+gravity-core-compose = "1.0.30"
 
-android = "9.1.1"
-kotlin = "2.3.20"
-ksp = "2.3.6"
+android = "9.2.0"
+kotlin = "2.3.21"
+ksp = "2.3.7"
 gms = "4.4.4"
 crashlytics = "3.0.7"
 
