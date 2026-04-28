@@ -53,6 +53,8 @@ class SongViewModel @Inject constructor(
     var playing: Boolean by mutableStateOf(false)
         private set
 
+    private var lastUserSeekCompletedTime: Long = 0 // used for skipping position update after user completed seeking to prevent lag animation
+
     init {
         observe()
     }
@@ -62,6 +64,16 @@ class SongViewModel @Inject constructor(
         observeDuration()
         observePosition()
         observeState()
+    }
+
+    private fun handlePosition(position: Long?) {
+        if (position == null) return
+        this@SongViewModel.position = position
+        positionText = formatter.format(position)
+    }
+
+    private fun allowUpdatingPosition(): Boolean {
+        return (System.currentTimeMillis() - lastUserSeekCompletedTime) > 200L
     }
 
     private fun observeSong() {
@@ -85,10 +97,8 @@ class SongViewModel @Inject constructor(
         viewModelScope.launch {
             while (isActive) {
                 val position = connection.state.value?.currentPlaybackPosition
-                if (position != null) {
-                    this@SongViewModel.position = position
-                    positionText = formatter.format(position)
-                }
+                if (!allowUpdatingPosition()) continue
+                handlePosition(position)
                 delay(DELAY)
             }
         }
@@ -124,6 +134,8 @@ class SongViewModel @Inject constructor(
     }
 
     fun onSeek() {
+        lastUserSeekCompletedTime = System.currentTimeMillis()
+        handlePosition(positionUser)
         connection.seek(positionUser)
     }
 }
