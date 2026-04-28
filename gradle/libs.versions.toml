@@ -15,7 +15,7 @@ exoplayer = "2.19.1"
 destinations = "2.3.0"
 timber = "5.0.1"
 gravity-core = "1.0.45"
-gravity-core-compose = "1.0.31"
+gravity-core-compose = "1.0.32"
 
 android = "9.2.0"
 kotlin = "2.3.21"
