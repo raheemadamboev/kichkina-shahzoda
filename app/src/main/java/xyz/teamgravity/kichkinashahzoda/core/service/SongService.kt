@@ -3,6 +3,7 @@ package xyz.teamgravity.kichkinashahzoda.core.service
 import android.app.ForegroundServiceStartNotAllowedException
 import android.app.Notification
 import android.app.PendingIntent
+import android.content.Context
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,8 @@ import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import xyz.teamgravity.coresdkandroid.android.changeLocale
+import xyz.teamgravity.kichkinashahzoda.core.constant.LanguageConst
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
 import javax.inject.Inject
 
@@ -43,6 +46,10 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     private var session: MediaSessionCompat? = null
     private var foregroundService = false
     private var playing = true
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base?.changeLocale(LanguageConst.VALUE))
+    }
 
     override fun onCreate() {
         super.onCreate()

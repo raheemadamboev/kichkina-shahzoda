@@ -1,12 +1,15 @@
 package xyz.teamgravity.kichkinashahzoda.injection.app
 
 import android.app.Application
+import android.content.Context
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import xyz.teamgravity.coresdkandroid.android.changeLocale
 import xyz.teamgravity.coresdkandroid.notification.NotificationManager
 import xyz.teamgravity.coresdkandroid.review.ReviewManager
 import xyz.teamgravity.kichkinashahzoda.BuildConfig
 import xyz.teamgravity.kichkinashahzoda.R
+import xyz.teamgravity.kichkinashahzoda.core.constant.LanguageConst
 import xyz.teamgravity.kichkinashahzoda.core.service.SongNotificationManager
 import javax.inject.Inject
 
@@ -21,6 +24,10 @@ class App : Application() {
 
     @Inject
     lateinit var review: ReviewManager
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base?.changeLocale(LanguageConst.VALUE))
+    }
 
     override fun onCreate() {
         super.onCreate()
