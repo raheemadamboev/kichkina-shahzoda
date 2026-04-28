@@ -72,46 +72,38 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
         super.onPlayWhenReadyChanged(playWhenReady, reason)
         playing = playWhenReady
-        if (!playing) stopForeground(STOP_FOREGROUND_DETACH)
+        if (!playing && foregroundService) {
+            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
+            foregroundService = false
+        }
     }
 
     override fun onNotificationCancelled(notificationId: Int, dismissedByUser: Boolean) {
         super.onNotificationCancelled(notificationId, dismissedByUser)
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         foregroundService = false
         stopSelf()
     }
 
     override fun onNotificationPosted(notificationId: Int, notification: Notification, ongoing: Boolean) {
         super.onNotificationPosted(notificationId, notification, ongoing)
-        // FIXME check this code why do we need two ways of starting service?
-        when {
-            ongoing && !foregroundService -> {
-                try {
-                    ServiceCompat.startForeground(
-                        this,
-                        SongNotificationManager.NOTIFICATION_ID,
-                        notification,
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK else 0
-                    )
-                    foregroundService = true
-                } catch (e: ForegroundServiceStartNotAllowedException) {
-                    Timber.e(e)
-                }
-            }
 
-            else -> {
-                if (playing) {
-                    try {
-                        startForeground(SongNotificationManager.NOTIFICATION_ID, notification)
-                        foregroundService = true
-                    } catch (e: ForegroundServiceStartNotAllowedException) {
-                        Timber.e(e)
-                    }
-                } else {
-                    stopForeground(STOP_FOREGROUND_DETACH)
-                }
+        val shouldBeForeground = ongoing || playing
+        if (shouldBeForeground) {
+            try {
+                ServiceCompat.startForeground(
+                    this,
+                    SongNotificationManager.NOTIFICATION_ID,
+                    notification,
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK else 0
+                )
+                foregroundService = true
+            } catch (e: ForegroundServiceStartNotAllowedException) {
+                Timber.e(e)
             }
+        } else if (foregroundService) {
+            ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
+            foregroundService = false
         }
     }
 

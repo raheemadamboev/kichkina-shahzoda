@@ -27,8 +27,8 @@ class SongNotificationManager(
         .setChannelDescriptionResourceId(R.string.notification_channel_description_player)
         .setMediaDescriptionAdapter(DescriptionAdapter(MediaControllerCompat(context, token)))
         .setNotificationListener(listener)
+        .setSmallIconResourceId(R.drawable.ic_music)
         .build().apply {
-            setSmallIcon(R.drawable.ic_music)
             setMediaSessionToken(token)
         }
 
@@ -45,7 +45,7 @@ class SongNotificationManager(
     ///////////////////////////////////////////////////////////////////////////
 
     private inner class DescriptionAdapter(
-        private val controller: MediaControllerCompat,
+        private val controller: MediaControllerCompat
     ) : PlayerNotificationManager.MediaDescriptionAdapter {
 
         override fun getCurrentContentTitle(player: Player): CharSequence {

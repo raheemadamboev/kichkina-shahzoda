@@ -14,7 +14,7 @@ import xyz.teamgravity.kichkinashahzoda.data.mapper.toMediaMetadataCompat
 import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 
 class MainRepository(
-    private val defaultDataSourceFactory: DefaultDataSource.Factory,
+    private val defaultDataSourceFactory: DefaultDataSource.Factory
 ) {
 
     private companion object {

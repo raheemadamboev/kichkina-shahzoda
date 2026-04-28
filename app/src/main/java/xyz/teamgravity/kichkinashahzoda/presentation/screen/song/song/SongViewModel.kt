@@ -26,7 +26,7 @@ class SongViewModel @Inject constructor(
 ) : ViewModel() {
 
     private companion object {
-        const val DELAY = 100L
+        const val DELAY = 250L
     }
 
     var song: SongModel? by mutableStateOf(null)
@@ -61,7 +61,7 @@ class SongViewModel @Inject constructor(
         observeSong()
         observeDuration()
         observePosition()
-        observePlaybackState()
+        observeState()
     }
 
     private fun observeSong() {
@@ -94,7 +94,7 @@ class SongViewModel @Inject constructor(
         }
     }
 
-    private fun observePlaybackState() {
+    private fun observeState() {
         viewModelScope.launch {
             connection.state.collectLatest { playback ->
                 playing = playback?.isPlaying ?: false
