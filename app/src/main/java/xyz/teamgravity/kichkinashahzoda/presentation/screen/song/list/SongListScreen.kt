@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -126,12 +127,14 @@ fun SongListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    start = padding.calculateStartPadding(direction),
-                    top = padding.calculateTopPadding(),
-                    end = padding.calculateEndPadding(direction)
+                    top = padding.calculateTopPadding()
                 )
         ) {
             LazyColumn(
+                contentPadding = PaddingValues(
+                    start = padding.calculateStartPadding(direction),
+                    end = padding.calculateEndPadding(direction)
+                ),
                 modifier = Modifier.weight(1F)
             ) {
                 items(
@@ -152,6 +155,10 @@ fun SongListScreen(
                     .clickable {
                         navigator.navigate(SongScreenDestination)
                     }
+                    .padding(
+                        start = padding.calculateStartPadding(direction),
+                        end = padding.calculateEndPadding(direction)
+                    )
                     .padding(
                         horizontal = 20.dp,
                         vertical = 10.dp
