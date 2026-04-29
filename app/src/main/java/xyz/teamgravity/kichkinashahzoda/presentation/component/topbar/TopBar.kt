@@ -2,7 +2,7 @@ package xyz.teamgravity.kichkinashahzoda.presentation.component.topbar
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 
@@ -10,13 +10,13 @@ import androidx.compose.runtime.Composable
 fun TopBar(
     title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
-    actions: @Composable RowScope.() -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
-    SmallTopAppBar(
+    TopAppBar(
         title = title,
         navigationIcon = navigationIcon,
         actions = actions,
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary,

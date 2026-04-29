@@ -6,12 +6,22 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import timber.log.Timber
+import xyz.teamgravity.coresdkandroid.crypto.CryptoManager
+import xyz.teamgravity.coresdkandroid.notification.NotificationManager
+import xyz.teamgravity.coresdkandroid.preferences.Preferences
+import xyz.teamgravity.coresdkandroid.review.ReviewManager
+import xyz.teamgravity.coresdkandroid.update.UpdateManager
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
+import xyz.teamgravity.kichkinashahzoda.injection.name.MainCoroutineScope
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import javax.inject.Singleton
+
+private typealias AndroidNotificationManager = android.app.NotificationManager
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,12 +33,22 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideMainRepository(defaultDataSourceFactory: DefaultDataSource.Factory): MainRepository =
-        MainRepository(defaultDataSourceFactory)
+    fun provideMainRepository(defaultDataSourceFactory: DefaultDataSource.Factory): MainRepository = MainRepository(defaultDataSourceFactory)
 
     @Provides
     @Singleton
-    fun provideSongServiceConnection(application: Application): SongServiceConnection = SongServiceConnection(application)
+    @MainCoroutineScope
+    fun provideMainCoroutineScope(): CoroutineScope = MainScope()
+
+    @Provides
+    @Singleton
+    fun provideSongServiceConnection(
+        application: Application,
+        @MainCoroutineScope mainCoroutineScope: CoroutineScope
+    ): SongServiceConnection = SongServiceConnection(
+        context = application,
+        scope = mainCoroutineScope
+    )
 
     @Provides
     @Singleton
@@ -37,4 +57,47 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideSimpleDateFormat(): SimpleDateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
+
+    @Provides
+    @Singleton
+    fun provideAndroidNotificationManager(application: Application): AndroidNotificationManager =
+        application.getSystemService(AndroidNotificationManager::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNotificationManager(
+        application: Application,
+        androidNotificationManager: AndroidNotificationManager
+    ): NotificationManager = NotificationManager(
+        application = application,
+        manager = androidNotificationManager
+    )
+
+    @Provides
+    @Singleton
+    fun provideCryptoManager(): CryptoManager = CryptoManager()
+
+    @Provides
+    @Singleton
+    fun providePreferences(
+        cryptoManager: CryptoManager,
+        application: Application
+    ): Preferences = Preferences(
+        crypto = cryptoManager,
+        context = application
+    )
+
+    @Provides
+    @Singleton
+    fun provideReviewManager(
+        preferences: Preferences,
+        application: Application
+    ): ReviewManager = ReviewManager(
+        preferences = preferences,
+        context = application
+    )
+
+    @Provides
+    @Singleton
+    fun provideUpdateManager(application: Application): UpdateManager = UpdateManager(application)
 }

@@ -1,8 +1,11 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.navigation
 
-import com.ramcosta.composedestinations.annotation.NavGraph
+import com.ramcosta.composedestinations.animations.defaults.DefaultFadingTransitions
+import com.ramcosta.composedestinations.annotation.NavHostGraph
 
-@NavGraph(default = true)
+@NavHostGraph(
+    defaultTransitions = DefaultFadingTransitions::class
+)
 annotation class MainNavGraph(
-    val start: Boolean = false,
+    val start: Boolean = false
 )

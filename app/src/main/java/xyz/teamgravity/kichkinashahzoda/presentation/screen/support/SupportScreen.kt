@@ -1,20 +1,33 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.screen.support
 
-import android.content.res.Configuration
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.runtime.remember
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import xyz.teamgravity.coresdkcompose.configuration.screen.ScreenConfiguration
+import xyz.teamgravity.coresdkcompose.configuration.screen.getScreenConfiguration
 import xyz.teamgravity.kichkinashahzoda.presentation.navigation.MainNavGraph
 
-@MainNavGraph
-@Destination
+@Destination<MainNavGraph>
 @Composable
 fun SupportScreen(
     navigator: DestinationsNavigator,
 ) {
-    when (LocalConfiguration.current.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> SupportPortraitScreen(onBackButtonClick = navigator::popBackStack)
-        else -> SupportLandscapeScreen(onBackButtonClick = navigator::popBackStack)
+    val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val onBackButtonClick: () -> Unit = remember { { dispatcher?.onBackPressed() ?: navigator.navigateUp() } }
+
+    when (getScreenConfiguration()) {
+        ScreenConfiguration.PhonePortrait, ScreenConfiguration.TabletPortrait -> {
+            SupportPortraitScreen(
+                onBackButtonClick = onBackButtonClick
+            )
+        }
+
+        else -> {
+            SupportLandscapeScreen(
+                onBackButtonClick = onBackButtonClick
+            )
+        }
     }
 }

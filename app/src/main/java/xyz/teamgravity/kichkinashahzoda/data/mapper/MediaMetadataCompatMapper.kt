@@ -4,6 +4,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.core.net.toUri
+import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 import xyz.teamgravity.kichkinashahzoda.data.model.SongModel
 
 fun MediaMetadataCompat.toMediaItem(): MediaBrowserCompat.MediaItem {
@@ -19,7 +20,7 @@ fun MediaMetadataCompat.toMediaItem(): MediaBrowserCompat.MediaItem {
 
 fun MediaMetadataCompat.toSong(): SongModel {
     return SongModel(
-        id = description.mediaId ?: "1", // it must not be null, but very few devices fuck it up, so first song is default song id
-        name = description.title.toString()
+        id = description.mediaId ?: AudioModel.Part1.id,
+        name = description.title?.toString() ?: AudioModel.Part1.title
     )
 }

@@ -1,4 +1,4 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.screen.about
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.song
 
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import xyz.teamgravity.kichkinashahzoda.presentation.navigation.MainNavGraph
 
 @Destination<MainNavGraph>
 @Composable
-fun AboutScreen(
+fun SongScreen(
     navigator: DestinationsNavigator
 ) {
     val dispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
@@ -19,13 +19,13 @@ fun AboutScreen(
 
     when (getScreenConfiguration()) {
         ScreenConfiguration.PhonePortrait, ScreenConfiguration.TabletPortrait -> {
-            AboutPortraitScreen(
+            SongPortraitScreen(
                 onBackButtonClick = onBackButtonClick
             )
         }
 
         else -> {
-            AboutLandscapeScreen(
+            SongLandscapeScreen(
                 onBackButtonClick = onBackButtonClick
             )
         }

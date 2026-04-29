@@ -5,7 +5,7 @@ import xyz.teamgravity.kichkinashahzoda.data.model.SongModel
 
 fun MediaBrowserCompat.MediaItem.toSong(): SongModel {
     return SongModel(
-        id = mediaId!!,
+        id = requireNotNull(mediaId),
         name = description.title.toString()
     )
 }

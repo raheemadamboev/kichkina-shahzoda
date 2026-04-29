@@ -1,76 +1,77 @@
-package xyz.teamgravity.kichkinashahzoda.presentation.screen.song
+package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.song
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import xyz.teamgravity.coresdkcompose.button.IconButtonPlain
+import xyz.teamgravity.coresdkcompose.text.TextPlain
 import xyz.teamgravity.kichkinashahzoda.R
-import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
-import xyz.teamgravity.kichkinashahzoda.presentation.component.button.IconButtonPlain
+import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.SongController
 import xyz.teamgravity.kichkinashahzoda.presentation.component.slider.SongSlider
-import xyz.teamgravity.kichkinashahzoda.presentation.component.text.TextPlain
 import xyz.teamgravity.kichkinashahzoda.presentation.component.topbar.TopBar
-import xyz.teamgravity.kichkinashahzoda.presentation.viewmodel.SongViewModel
 
 @Composable
 fun SongPortraitScreen(
     onBackButtonClick: () -> Unit,
-    viewmodel: SongViewModel = hiltViewModel(),
+    viewmodel: SongViewModel = hiltViewModel()
 ) {
     Scaffold(
         topBar = {
             TopBar(
                 title = {
-                    TextPlain(id = R.string.app_name)
+                    TextPlain(
+                        id = R.string.app_name
+                    )
                 },
                 navigationIcon = {
                     IconButtonPlain(
                         onClick = onBackButtonClick,
-                        icon = Icons.Default.ArrowBack,
+                        icon = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = R.string.cd_back_button
                     )
                 }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets.safeDrawing
     ) { padding ->
-        ConstraintLayout(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .padding(horizontal = 16.dp)
         ) {
-            val (nameT, coverI, sliderC, controllerC) = createRefs()
-
             Text(
-                text = viewmodel.song?.name ?: SongConst.NAME_1,
+                text = viewmodel.song?.name ?: AudioModel.Part1.title,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.constrainAs(nameT) {
-                    width = Dimension.fillToConstraints
-                    linkTo(start = parent.start, end = parent.end, startMargin = 20.dp, endMargin = 20.dp)
-                }
+                modifier = Modifier.fillMaxWidth()
             )
             Image(
-                painter = painterResource(id = R.drawable.icon),
-                contentDescription = stringResource(id = R.string.cd_album_cover),
-                modifier = Modifier.constrainAs(coverI) {
-                    width = Dimension.value(300.dp)
-                    height = Dimension.value(300.dp)
-                    linkTo(start = parent.start, end = parent.end)
-                }
+                painter = painterResource(R.drawable.logo_icon),
+                contentDescription = stringResource(R.string.cd_album_cover),
+                modifier = Modifier.size(300.dp)
             )
             SongSlider(
                 position = viewmodel.position,
@@ -81,22 +82,16 @@ fun SongPortraitScreen(
                 durationText = viewmodel.durationText,
                 onPositionUserChange = viewmodel::onPositionUserChange,
                 onPositionUserChangeFinished = viewmodel::onSeek,
-                modifier = Modifier.constrainAs(sliderC) {
-                    width = Dimension.fillToConstraints
-                    linkTo(start = parent.start, end = parent.end, startMargin = 16.dp, endMargin = 16.dp)
-                }
+                modifier = Modifier.fillMaxWidth()
             )
             SongController(
                 playing = viewmodel.playing,
                 onPreviousSong = viewmodel::onPreviousSong,
                 onPlayPause = viewmodel::onPlayPause,
+                nextButtonEnabled = viewmodel.nextButtonEnabled,
                 onNextSong = viewmodel::onNextSong,
-                modifier = Modifier.constrainAs(controllerC) {
-                    width = Dimension.matchParent
-                }
+                modifier = Modifier.fillMaxWidth()
             )
-
-            createVerticalChain(nameT, coverI, sliderC, controllerC)
         }
     }
 }

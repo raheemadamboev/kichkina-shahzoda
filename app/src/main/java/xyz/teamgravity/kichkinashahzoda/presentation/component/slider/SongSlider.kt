@@ -25,7 +25,7 @@ fun SongSlider(
     durationText: String,
     onPositionUserChange: (value: Long) -> Unit,
     onPositionUserChangeFinished: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
@@ -36,8 +36,12 @@ fun SongSlider(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
-        Text(text = if (interacting) positionUserText else positionText)
-        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = if (interacting) positionUserText else positionText
+        )
+        Spacer(
+            modifier = Modifier.width(16.dp)
+        )
         Slider(
             value = if (interacting) positionUser.toFloat() else position.toFloat(),
             valueRange = 0F..duration.toFloat(),
@@ -46,7 +50,11 @@ fun SongSlider(
             interactionSource = interaction,
             modifier = Modifier.weight(1F)
         )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(text = durationText)
+        Spacer(
+            modifier = Modifier.width(16.dp)
+        )
+        Text(
+            text = durationText
+        )
     }
 }

@@ -1,14 +1,13 @@
 <resources>
     <string name="app_name">Kichkina Shahzoda</string>
-    <string name="raheem" translatable="false">Raheem</string>
 
     <!-- SongList -->
-    <string name="share_app">Kichkina Shahzoda asarini audio ravishda tinglashni xohlaysizmi? Unda Kichkina Shahzoda bepul dasturini yuklab oling -> %1$s</string>
+    <string name="share_app">Kichkina Shahzoda asarini audio shaklda tinglashni xohlaysizmi? Bepul dasturni yuklab oling -> %1$s</string>
     <string name="choose">Tanlang</string>
     <string name="support">Yordam</string>
     <string name="share">Ulashish</string>
-    <string name="rate">Baho berish</string>
-    <string name="source_code">Manba kodi</string>
+    <string name="rate">Baholash</string>
+    <string name="source_code">Dastur kodi</string>
     <string name="about_me">Dastur haqida</string>
 
     <!-- Support -->
@@ -27,12 +26,12 @@
     <string name="cd_user_support">Foydalanuvchilarga yordam berish</string>
     <string name="cd_via_telegram">Telegram orqali bog\'lanish</string>
     <string name="cd_via_email">Email orqali bog\'lanish</string>
-    <string name="cd_album_cover">Album yuzi</string>
-    <string name="cd_skip_previous">Ortga o\'tirish</string>
-    <string name="cd_play_pause">Boshlash yoki to\'xtatish</string>
-    <string name="cd_skip_next">Keyingiga o\'tirish</string>
+    <string name="cd_album_cover">Album muqovasi</string>
+    <string name="cd_skip_previous">Oldingisiga o\'tish</string>
+    <string name="cd_play_pause">Ijro etish yoki to\'xtatish</string>
+    <string name="cd_skip_next">Keyingisiga o\'tish</string>
 
     <!-- Notification -->
     <string name="notification_channel_player">Audio-player</string>
-    <string name="notification_channel_description_player">Bu kanal audioni kuylash uchun foydalaniladi</string>
+    <string name="notification_channel_description_player">Bu kanal audio ijrosi uchun ishlatiladi</string>
 </resources>

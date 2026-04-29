@@ -7,49 +7,42 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
-import xyz.teamgravity.kichkinashahzoda.R
-import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
 import xyz.teamgravity.kichkinashahzoda.data.mapper.toMediaItem
 import xyz.teamgravity.kichkinashahzoda.data.mapper.toMediaMetadataCompat
 import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 
 class MainRepository(
-    private val defaultDataSourceFactory: DefaultDataSource.Factory,
+    private val defaultDataSourceFactory: DefaultDataSource.Factory
 ) {
 
-    companion object {
-        private val audios = listOf(
-            AudioModel(id = 1, name = SongConst.NAME_1, audio = R.raw.audio_1),
-            AudioModel(id = 2, name = SongConst.NAME_2, audio = R.raw.audio_2),
-            AudioModel(id = 3, name = SongConst.NAME_3, audio = R.raw.audio_3)
-        )
-        private val mediaMetadatas = audios.map { it.toMediaMetadataCompat() }
-        private val mediaItems = mediaMetadatas.map { it.toMediaItem() }
+    private companion object {
+        val MEDIA_METADATAS: List<MediaMetadataCompat> = AudioModel.entries.map { it.toMediaMetadataCompat() }
+        val MEDIA_ITEMS: List<MediaBrowserCompat.MediaItem> = MEDIA_METADATAS.map { it.toMediaItem() }
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    // GET
+    // Get
     ///////////////////////////////////////////////////////////////////////////
 
     fun getMediaMetadata(id: String): MediaMetadataCompat? {
-        return mediaMetadatas.find { it.description.mediaId == id }
+        return MEDIA_METADATAS.firstOrNull { it.description.mediaId == id }
     }
 
     fun getMediaMetadatas(): List<MediaMetadataCompat> {
-        return mediaMetadatas
+        return MEDIA_METADATAS
     }
 
     fun getMediaMetadataIndex(metadata: MediaMetadataCompat): Int {
-        return mediaMetadatas.indexOf(metadata)
+        return MEDIA_METADATAS.indexOf(metadata)
     }
 
     fun getMediaItems(): List<MediaBrowserCompat.MediaItem> {
-        return mediaItems
+        return MEDIA_ITEMS
     }
 
     fun getMediaSources(): ConcatenatingMediaSource {
         val concatenatingMediaSource = ConcatenatingMediaSource()
-        mediaMetadatas.forEach { metadata ->
+        MEDIA_METADATAS.forEach { metadata ->
             val mediaSource = ProgressiveMediaSource.Factory(defaultDataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI).toUri()))
             concatenatingMediaSource.addMediaSource(mediaSource)

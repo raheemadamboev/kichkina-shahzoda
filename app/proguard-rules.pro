@@ -21,4 +21,5 @@
 -renamesourcefileattribute SourceFile
 
 -keep class xyz.teamgravity.kichkinashahzoda.data.model.** { *; }
--keep class timber.log.** { *; }
+-keep class xyz.teamgravity.coresdkandroid.** { *; }
+-keep class xyz.teamgravity.coresdkcompose.** { *; }
