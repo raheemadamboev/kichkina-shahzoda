@@ -1,7 +1,6 @@
 package xyz.teamgravity.kichkinashahzoda.presentation.screen.song.list
 
 import android.app.Activity
-import android.support.v4.media.MediaBrowserCompat
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.compose.runtime.getValue
@@ -20,7 +19,6 @@ import timber.log.Timber
 import xyz.teamgravity.coresdkandroid.review.ReviewManager
 import xyz.teamgravity.coresdkandroid.update.UpdateManager
 import xyz.teamgravity.kichkinashahzoda.core.extension.isPlaying
-import xyz.teamgravity.kichkinashahzoda.core.service.SongService
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.mapper.toSong
 import xyz.teamgravity.kichkinashahzoda.data.model.SongModel
@@ -58,20 +56,18 @@ class SongListViewModel @Inject constructor(
     private val _event = Channel<SongListEvent>()
     val event: Flow<SongListEvent> = _event.receiveAsFlow()
 
-    private val listener: MediaBrowserCompat.SubscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
-        override fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>) {
-            super.onChildrenLoaded(parentId, children)
-            songs = children.map { it.toSong() }
-        }
-    }
-
     init {
+        subscribe()
         observe()
     }
 
     override fun onCleared() {
         super.onCleared()
-        connection.unsubscribe(SongService.ID, listener)
+        connection.unsubscribe()
+    }
+
+    private fun subscribe() {
+        connection.subscribe()
     }
 
     private fun observe() {
@@ -108,7 +104,11 @@ class SongListViewModel @Inject constructor(
     }
 
     private fun observeSongs() {
-        connection.subscribe(SongService.ID, listener)
+        viewModelScope.launch {
+            connection.songs.collectLatest { songs ->
+                this@SongListViewModel.songs = songs
+            }
+        }
     }
 
     private fun observeCurrentSong() {

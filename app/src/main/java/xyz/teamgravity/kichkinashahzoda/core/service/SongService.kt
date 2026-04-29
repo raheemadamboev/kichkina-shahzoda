@@ -81,6 +81,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
         super.onNotificationCancelled(notificationId, dismissedByUser)
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         foregroundService = false
+        connection.disconnect()
         stopSelf()
     }
 
@@ -108,6 +109,7 @@ class SongService : MediaBrowserServiceCompat(), Player.Listener, PlayerNotifica
 
     override fun onDestroy() {
         super.onDestroy()
+        connection.disconnect()
         exoplayer.removeListener(this)
         exoplayer.release()
     }

@@ -6,6 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import timber.log.Timber
 import xyz.teamgravity.coresdkandroid.crypto.CryptoManager
 import xyz.teamgravity.coresdkandroid.notification.NotificationManager
@@ -14,6 +16,7 @@ import xyz.teamgravity.coresdkandroid.review.ReviewManager
 import xyz.teamgravity.coresdkandroid.update.UpdateManager
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.repository.MainRepository
+import xyz.teamgravity.kichkinashahzoda.injection.name.MainCoroutineScope
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Singleton
@@ -34,7 +37,18 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideSongServiceConnection(application: Application): SongServiceConnection = SongServiceConnection(application)
+    @MainCoroutineScope
+    fun provideMainCoroutineScope(): CoroutineScope = MainScope()
+
+    @Provides
+    @Singleton
+    fun provideSongServiceConnection(
+        application: Application,
+        @MainCoroutineScope mainCoroutineScope: CoroutineScope
+    ): SongServiceConnection = SongServiceConnection(
+        context = application,
+        scope = mainCoroutineScope
+    )
 
     @Provides
     @Singleton
