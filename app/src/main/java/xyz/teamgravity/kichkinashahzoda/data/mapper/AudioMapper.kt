@@ -8,9 +8,9 @@ import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 fun AudioModel.toMediaMetadataCompat(): MediaMetadataCompat {
     return MediaMetadataCompat.Builder()
         .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, SongConst.ARTIST)
-        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, id.toString())
-        .putString(MediaMetadataCompat.METADATA_KEY_TITLE, name)
-        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, name)
+        .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, id)
+        .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
+        .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, title)
         .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, RawResourceDataSource.buildRawResourceUri(audio).toString())
         .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_SUBTITLE, SongConst.ARTIST)
         .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_DESCRIPTION, SongConst.ARTIST)

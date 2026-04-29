@@ -24,6 +24,7 @@ fun SongController(
     playing: Boolean,
     onPreviousSong: () -> Unit,
     onPlayPause: () -> Unit,
+    nextButtonEnabled: Boolean,
     onNextSong: () -> Unit,
     modifier: Modifier
 ) {
@@ -58,6 +59,7 @@ fun SongController(
         )
         FilledTonalIconButton(
             onClick = onNextSong,
+            enabled = nextButtonEnabled,
             modifier = Modifier.size(50.dp)
         ) {
             Icon(

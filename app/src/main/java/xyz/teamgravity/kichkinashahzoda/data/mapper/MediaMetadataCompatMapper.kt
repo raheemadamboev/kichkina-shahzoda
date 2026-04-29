@@ -4,7 +4,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.core.net.toUri
-import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
+import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 import xyz.teamgravity.kichkinashahzoda.data.model.SongModel
 
 fun MediaMetadataCompat.toMediaItem(): MediaBrowserCompat.MediaItem {
@@ -20,7 +20,7 @@ fun MediaMetadataCompat.toMediaItem(): MediaBrowserCompat.MediaItem {
 
 fun MediaMetadataCompat.toSong(): SongModel {
     return SongModel(
-        id = description.mediaId ?: "1",
-        name = description.title?.toString() ?: SongConst.NAME_1
+        id = description.mediaId ?: AudioModel.Part1.id,
+        name = description.title?.toString() ?: AudioModel.Part1.title
     )
 }

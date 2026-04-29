@@ -26,7 +26,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import xyz.teamgravity.coresdkcompose.button.IconButtonPlain
 import xyz.teamgravity.coresdkcompose.text.TextPlain
 import xyz.teamgravity.kichkinashahzoda.R
-import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
+import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 import xyz.teamgravity.kichkinashahzoda.presentation.component.misc.SongController
 import xyz.teamgravity.kichkinashahzoda.presentation.component.slider.SongSlider
 import xyz.teamgravity.kichkinashahzoda.presentation.component.topbar.TopBar
@@ -78,7 +78,7 @@ fun SongLandscapeScreen(
                     .padding(horizontal = 20.dp)
             ) {
                 Text(
-                    text = viewmodel.song?.name ?: SongConst.NAME_1,
+                    text = viewmodel.song?.name ?: AudioModel.Part1.title,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.fillMaxWidth()
@@ -98,6 +98,7 @@ fun SongLandscapeScreen(
                     playing = viewmodel.playing,
                     onPreviousSong = viewmodel::onPreviousSong,
                     onPlayPause = viewmodel::onPlayPause,
+                    nextButtonEnabled = viewmodel.nextButtonEnabled,
                     onNextSong = viewmodel::onNextSong,
                     modifier = Modifier.fillMaxWidth()
                 )

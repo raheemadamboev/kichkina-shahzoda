@@ -15,6 +15,7 @@ import xyz.teamgravity.kichkinashahzoda.core.extension.currentPlaybackPosition
 import xyz.teamgravity.kichkinashahzoda.core.extension.isPlaying
 import xyz.teamgravity.kichkinashahzoda.core.service.SongServiceConnection
 import xyz.teamgravity.kichkinashahzoda.data.mapper.toSong
+import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 import xyz.teamgravity.kichkinashahzoda.data.model.SongModel
 import java.text.SimpleDateFormat
 import javax.inject.Inject
@@ -30,6 +31,9 @@ class SongViewModel @Inject constructor(
     }
 
     var song: SongModel? by mutableStateOf(null)
+        private set
+
+    var nextButtonEnabled: Boolean by mutableStateOf(false)
         private set
 
     var duration: Long by mutableLongStateOf(0L)
@@ -80,6 +84,7 @@ class SongViewModel @Inject constructor(
         viewModelScope.launch {
             connection.metadata.collectLatest { metadata ->
                 song = metadata?.toSong()
+                nextButtonEnabled = song?.id != AudioModel.Part3.id
             }
         }
     }

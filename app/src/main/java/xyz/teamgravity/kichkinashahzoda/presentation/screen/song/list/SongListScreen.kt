@@ -47,8 +47,8 @@ import xyz.teamgravity.coresdkcompose.text.TextPlain
 import xyz.teamgravity.coresdkcompose.update.DialogUpdateAvailable
 import xyz.teamgravity.coresdkcompose.update.DialogUpdateDownloaded
 import xyz.teamgravity.kichkinashahzoda.R
-import xyz.teamgravity.kichkinashahzoda.core.constant.SongConst
 import xyz.teamgravity.kichkinashahzoda.core.util.Helper
+import xyz.teamgravity.kichkinashahzoda.data.model.AudioModel
 import xyz.teamgravity.kichkinashahzoda.presentation.component.card.CardSong
 import xyz.teamgravity.kichkinashahzoda.presentation.component.topbar.TopBar
 import xyz.teamgravity.kichkinashahzoda.presentation.component.topbar.TopBarMoreMenu
@@ -158,7 +158,7 @@ fun SongListScreen(
                     )
             ) {
                 Text(
-                    text = viewmodel.currentSong?.name ?: SongConst.NAME_1,
+                    text = viewmodel.currentSong?.name ?: AudioModel.Part1.title,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.weight(1F)
                 )
